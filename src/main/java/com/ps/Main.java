@@ -56,17 +56,49 @@ import java.util.Scanner;
                 System.out.println("1- Display All");
                 System.out.println("2- Display Deposits");
                 System.out.println("3- Display Payments");
-                System.out.println("4- Display Reports");
+                System.out.println("4- Reports");
+                System.out.println("Search By Vendor");
 
-                System.out.println("0- Back");
+                System.out.println("0- Home Page");
                 System.out.println("Command: ");
 
                 subMenuCommand = commnandScanner.nextInt();
 
+                switch(subMenuCommand){
+                    case 1:
+                        displayAll();
+                        break;
+                    case 2:
+                        displayDeposits();
+                        break;
+                    case 3:
+                        displayPayments();
+                        break;
+                    case 4:
+                        displayReports();
+                        break;
+                    case 5:
+                        searchByVendor();
+                        break;
 
-
-
+                }
             } while (subMenuCommand != 0);
         }
+        public static void displayAll(){
+            System.out.println("Display All");
+        }
+        public static void displayDeposits(){
+            System.out.println("Display Deposits");
+        }
+        public static void displayPayments(){
+            System.out.println("Display Payments");
+        }
+        public static void displayReports(){
+            System.out.println("Placeholder: Reports");
+        }
+        public static void searchByVendor(){
+            System.out.println("Search By Vendor");
+        }
+
     }
 
