@@ -13,7 +13,7 @@
         //***** Home ******
         //Add deposit
         //Make Payment
-        //Lerger
+        //Ledger
         //Exit
         //Leger
             //All
