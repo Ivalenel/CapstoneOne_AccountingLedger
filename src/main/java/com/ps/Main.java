@@ -15,9 +15,14 @@ public class Main {
         //        //Exit
         //        //Leger
      do{
-         System.out.println();
-         System.out.println();
-         System.out.println();
+         System.out.println("Please Select Option");
+         System.out.println("1- Add Deposit");
+         System.out.println("2- Make Payment");
+         System.out.println("3-Ledger");
+         System.out.println("0-Exit");
+         System.out.println("Command");
+         mainMenuCommand = commnandScanner.nextInt();
+
 
 
         }
