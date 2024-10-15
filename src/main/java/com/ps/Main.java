@@ -1,4 +1,5 @@
 package com.ps;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -21,11 +22,27 @@ public class Main {
          System.out.println("3-Ledger");
          System.out.println("0-Exit");
          System.out.println("Command");
-         mainMenuCommand = commnandScanner.nextInt();
 
-
-
+         try {
+           mainMenuCommand = commnandScanner.nextInt();
+         } catch(InputMismatchException ime){
+             mainMenuCommand = 0;
+         }
+        switch (mainMenuCommand){
+             case 1:
+                 addDeposit();
+                 break;
+            case 2:
+                makePayment();
+                break;
+            case 3:
+                displaySubMenu();
+                break;
+            default:
+                System.out.println("Command not found, please try again");
         }
+     }while(mainMenuCommand !=0);
+
 
     }
 }
