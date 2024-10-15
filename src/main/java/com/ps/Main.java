@@ -45,12 +45,6 @@ import java.util.Scanner;
         public static void displaySubMenu(){
             int subMenuCommand;
 
-            //All
-            //Deposits
-            //Payments
-            //Reports - custom search
-            //Back
-
             do{
                 System.out.println("Please Enter Option");
                 System.out.println("1- Display All");
