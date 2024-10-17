@@ -23,7 +23,7 @@ import java.time.LocalDate;
         static ArrayList<Transaction> allTransactions = new ArrayList<>();
 
         public static void main(String[] args) {
-        allReports();
+            allReports();
 
             int mainMenuCommand;
 
@@ -205,23 +205,38 @@ import java.time.LocalDate;
             } while (subMenuCommand != 0);
         }
 
+        private static void displayVendors() {
+            System.out.println("Search By Vendor");
+
+            System.out.println("Please provide the vendor name you're looking for...");
+            System.out.print("Name: ");
+            String nameToSearch = inputScanner.nextLine();
+
+            for (int i = 0; i < allTransactions.size(); i++) {
+                Transaction currentTransaction = allTransactions.get(i);
+                if (currentTransaction.getVendor().equalsIgnoreCase(nameToSearch)) {
+                    System.out.println(currentTransaction);
+                }
+            }
+        }
+
         public static void displayAll() {
             for (int i = allTransactions.size() - 1; i >= 0; i--) {
                 Transaction transaction = allTransactions.get(i);
                 System.out.println(transaction);
             }
         }
+
         public static void displayDeposits() {
             for (int i = allTransactions.size() - 1; i >= 0; i--) {
                 Transaction transaction = allTransactions.get(i);
                 if (transaction != null) {
                     try {
-                        double amount = Double.parseDouble(transaction.getAmount()); // Convert string to double
-                        if (amount < 0) { // Check if the amount is negative
+                        double amount = Double.parseDouble(transaction.getAmount());
+                        if (amount < 0) {
                             System.out.println(transaction);
                         }
                     } catch (NumberFormatException e) {
-                        // Handle the case where the string cannot be parsed as a double
                         System.out.println("Invalid amount: " + transaction.getAmount());
                     }
                 }
@@ -229,7 +244,7 @@ import java.time.LocalDate;
 
         }
 
-        public static void displayPayments(){
+        public static void displayPayments() {
             for (int i = allTransactions.size() - 1; i >= 0; i--) {
                 Transaction transaction = allTransactions.get(i);
                 if (transaction != null) {
@@ -266,21 +281,6 @@ import java.time.LocalDate;
                         break;
                 }
             } while (reportMenuCommand != 0);
-
-        }
-
-        public static void displayVendors() {
-            System.out.print("Search By Vendor");
-            System.out.println("Please provide vendors name below... ");
-            System.out.print("Name: ");
-            String vendorToSearch = inputScanner.nextLine();
-
-            for (int i = 0; i < allTransactions.size(); i++) {
-                Transaction currentVendor = allTransactions.get(i);
-                if (currentVendor.getVendor().equalsIgnoreCase(vendorToSearch)) {
-                    System.out.println(currentVendor);
-                }
-            }
 
         }
 
