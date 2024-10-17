@@ -23,6 +23,7 @@ import java.time.LocalDate;
         static ArrayList<Transaction> allTransactions = new ArrayList<>();
 
         public static void main(String[] args) {
+        allReports();
 
             int mainMenuCommand;
 
@@ -125,6 +126,44 @@ import java.time.LocalDate;
 
         public static void makePayment() {
             System.out.println("Make Payment");
+            System.out.println("Please enter payment details...");
+
+            System.out.print("Date: ");
+            String date = inputScanner.nextLine();
+
+            System.out.println("Time: ");
+            String time = inputScanner.nextLine();
+
+            System.out.println("Descripton: ");
+            String description = inputScanner.nextLine();
+
+            System.out.println("Vendor: ");
+            String vendor = inputScanner.nextLine();
+
+            System.out.println("Amount: ");
+            String amount = inputScanner.nextLine();
+
+            LocalDateTime currentDateTime = LocalDateTime.now();
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm:ss");
+
+            String formattedDate = currentDateTime.format(dateFormatter);
+            String formattedTime = currentDateTime.format(timeFormatter);
+            Transaction transaction = new Transaction(formattedDate, formattedTime, description, vendor, amount);
+            allTransactions.add(transaction);
+            try {
+                BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("transactions.csv", true));
+                bufferedWriter.write(String.format("\n%s|%s|%s|%s|%s",
+                        formattedDate,
+                        formattedTime,
+                        transaction.getDescription(),
+                        transaction.getVendor(),
+                        transaction.getAmount()
+                ));
+                bufferedWriter.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
 
@@ -167,19 +206,46 @@ import java.time.LocalDate;
         }
 
         public static void displayAll() {
-            System.out.println("Display All");
-            for (int i = 0; i < allTransactions.size(); i++) {
-                System.out.println(allTransactions.get(i));
+            for (int i = allTransactions.size() - 1; i >= 0; i--) {
+                Transaction transaction = allTransactions.get(i);
+                System.out.println(transaction);
             }
         }
-
         public static void displayDeposits() {
-            System.out.println("Display Deposits");
+            for (int i = allTransactions.size() - 1; i >= 0; i--) {
+                Transaction transaction = allTransactions.get(i);
+                if (transaction != null) {
+                    try {
+                        double amount = Double.parseDouble(transaction.getAmount()); // Convert string to double
+                        if (amount < 0) { // Check if the amount is negative
+                            System.out.println(transaction);
+                        }
+                    } catch (NumberFormatException e) {
+                        // Handle the case where the string cannot be parsed as a double
+                        System.out.println("Invalid amount: " + transaction.getAmount());
+                    }
+                }
+            }
+
         }
 
-        public static void displayPayments() {
-            System.out.println("Display Payments");
+        public static void displayPayments(){
+            for (int i = allTransactions.size() - 1; i >= 0; i--) {
+                Transaction transaction = allTransactions.get(i);
+                if (transaction != null) {
+                    try {
+                        double amount = Double.parseDouble(transaction.getAmount());
+                        if (amount > 0) {
+                            System.out.println(transaction);
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid amount: " + transaction.getAmount());
+                    }
+                }
+            }
+
         }
+
 
         public static void displayReports() {
             int reportMenuCommand = 0;
@@ -198,10 +264,24 @@ import java.time.LocalDate;
                     case 2:
                         yearToDate();
                         break;
-
-
                 }
-            }while (reportMenuCommand != 0);
+            } while (reportMenuCommand != 0);
+
+        }
+
+        public static void displayVendors() {
+            System.out.print("Search By Vendor");
+            System.out.println("Please provide vendors name below... ");
+            System.out.print("Name: ");
+            String vendorToSearch = inputScanner.nextLine();
+
+            for (int i = 0; i < allTransactions.size(); i++) {
+                Transaction currentVendor = allTransactions.get(i);
+                if (currentVendor.getVendor().equalsIgnoreCase(vendorToSearch)) {
+                    System.out.println(currentVendor);
+                }
+            }
+
         }
 
         private static void yearToDate() {
@@ -218,27 +298,13 @@ import java.time.LocalDate;
 
                 LocalDate localDate = LocalDate.parse(tranDate, dateFormatter);
 
-                int  transMonth = localDate.getMonthValue();
+                int transMonth = localDate.getMonthValue();
                 int year = localDate.getYear();
 
-                if (currentMonth ==transMonth && currentYear == year) {
+                if (currentMonth == transMonth && currentYear == year) {
                     System.out.println(allTransactions.get(i));
                 }
             }
         }
-            public static void displayVendors () {
-                System.out.print("Search By Vendor");
-                System.out.println("Please provide vendors name below... ");
-                System.out.print("Name: ");
-                String vendorToSearch = inputScanner.nextLine();
-
-                for (int i = 0; i < allTransactions.size(); i++) {
-                    Transaction currentTransaction = allTransactions.get(i);
-                    if (currentTransaction.getVendor().equalsIgnoreCase(vendorToSearch)) {
-                        System.out.println(currentTransaction);
-                    }
-                }
-
-            }
-        }
+    }
 
