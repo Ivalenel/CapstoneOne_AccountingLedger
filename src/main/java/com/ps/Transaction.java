@@ -1,17 +1,14 @@
 package com.ps;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-
 public class Transaction {
 
     private String date;
     private String time;
     private String description;
     private String vendor;
-    private int amount;
+    private String amount;
 
-    public Transaction(LocalDate date, LocalTime time, String description, String vendor, int amount) {
+    public Transaction(String date, String time, String description, String vendor, String amount) {
         this.date = String.valueOf(date);
         this.time = String.valueOf(time);
         this.description = description;
@@ -51,17 +48,17 @@ public class Transaction {
         this.vendor = vendor;
     }
 
-    public int getAmount() {
+    public String getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(String amount) {
         this.amount = amount;
     }
 
     @Override
     public String toString() {
-        return "Transaction{" +
+        return "\nTransaction{" +
                 "date=" + date +
                 ", time=" + time +
                 ", description='" + description + '\'' +

@@ -1,18 +1,32 @@
 package com.ps;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
+
+
+
+
+
 
     public class Menu {
 
         static Scanner commnandScanner = new Scanner(System.in);
         static Scanner inputScanner = new Scanner(System.in);
-        static ArrayList<Transaction> transactions = new ArrayList<>();
+        static ArrayList<Transaction> allTransactions = new ArrayList<>();
+
         public static void main(String[] args) {
+
             int mainMenuCommand;
 
-            do{
+            do {
                 System.out.println("Please Select Option");
                 System.out.println("1- Add Deposit");
                 System.out.println("2- Make Payment");
@@ -23,10 +37,10 @@ import java.util.Scanner;
 
                 try {
                     mainMenuCommand = commnandScanner.nextInt();
-                } catch(InputMismatchException ime){
+                } catch (InputMismatchException ime) {
                     mainMenuCommand = 0;
                 }
-                switch (mainMenuCommand){
+                switch (mainMenuCommand) {
                     case 1:
                         addDeposit();
                         break;
@@ -36,34 +50,102 @@ import java.util.Scanner;
                     case 3:
                         displaySubMenu();
                         break;
+                    case 0:
+                        System.out.println("Exiting...");
+                        break;
                     default:
                         System.out.println("Command not found, please try again");
                 }
-            }while(mainMenuCommand !=0);
+            } while (mainMenuCommand != 0);
+        }
+
+        public static void allReports() {
+            try {
+                BufferedReader bufferedReader = new BufferedReader(new FileReader("transactions.csv"));
+                String firstLine = bufferedReader.readLine();
+                String input;
+                while ((input = bufferedReader.readLine()) != null) {
+                    String[] transactionsArr = input.split("\\|");
+
+                    String dateOfArrival = transactionsArr[0];
+                    String timeOfArrival = transactionsArr[1];
+                    String description = transactionsArr[2];
+                    String vendor = transactionsArr[3];
+                    String amount = transactionsArr[4];
+                    allTransactions.add(new Transaction(dateOfArrival, timeOfArrival, description, vendor, amount));
+                }
+                bufferedReader.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        public static void addDeposit() {
+            System.out.println("Add Deposit");
+            System.out.println("Please enter deposit details...");
+
+            System.out.print("Date: ");
+            String date = inputScanner.nextLine();
+
+            System.out.println("Time: ");
+            String time = inputScanner.nextLine();
+
+            System.out.println("Descripton: ");
+            String description = inputScanner.nextLine();
+
+            System.out.println("Vendor: ");
+            String vendor = inputScanner.nextLine();
+
+            System.out.println("Amount: ");
+            String amount = inputScanner.nextLine();
+
+            LocalDateTime currentDateTime = LocalDateTime.now();
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm:ss");
+
+            String formattedDate = currentDateTime.format(dateFormatter);
+            String formattedTime = currentDateTime.format(timeFormatter);
+            Transaction transaction = new Transaction(formattedDate, formattedTime, description, vendor, amount);
+            allTransactions.add(transaction);
+            try {
+                BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("transactions.csv", true));
+                bufferedWriter.write(String.format("\n%s|%s|%s|%s|%s",
+                        formattedDate,
+                        formattedTime,
+                        transaction.getDescription(),
+                        transaction.getVendor(),
+                        transaction.getAmount()
+                ));
+                bufferedWriter.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         }
-        public static void addDeposit(){
-            System.out.println("Command for Adding Deposit");
+
+        public static void makePayment() {
+            System.out.println("Make Payment");
         }
-        public static void makePayment(){System.out.println("Command for Making Payment");
-        }
-        public static void displaySubMenu(){
+
+
+        public static void displaySubMenu() {
             int subMenuCommand;
 
-            do{
+            do {
                 System.out.println("Please Enter Option");
                 System.out.println("1- Display All");
                 System.out.println("2- Display Deposits");
                 System.out.println("3- Display Payments");
                 System.out.println("4- Reports");
-                System.out.println("Search By Vendor");
+                System.out.println("5-Search By Vendor");
 
                 System.out.println("0- Home Page");
                 System.out.println("Command: ");
 
+
                 subMenuCommand = commnandScanner.nextInt();
 
-                switch(subMenuCommand){
+                switch (subMenuCommand) {
                     case 1:
                         displayAll();
                         break;
@@ -77,27 +159,86 @@ import java.util.Scanner;
                         displayReports();
                         break;
                     case 5:
-                        searchByVendor();
+                        displayVendors();
                         break;
 
                 }
             } while (subMenuCommand != 0);
         }
-        public static void displayAll(){
+
+        public static void displayAll() {
             System.out.println("Display All");
-        }
-        public static void displayDeposits(){
-            System.out.println("Display Deposits");
-        }
-        public static void displayPayments(){
-            System.out.println("Display Payments");
-        }
-        public static void displayReports(){
-            int reportsCommand;
-        }
-        public static void searchByVendor(){
-            System.out.println("Search By Vendor");
+            for (int i = 0; i < allTransactions.size(); i++) {
+                System.out.println(allTransactions.get(i));
+            }
         }
 
-    }
+        public static void displayDeposits() {
+            System.out.println("Display Deposits");
+        }
+
+        public static void displayPayments() {
+            System.out.println("Display Payments");
+        }
+
+        public static void displayReports() {
+            int reportMenuCommand = 0;
+
+            do {
+                System.out.println("Please Select Report");
+                System.out.println("1- Month to Date");
+                System.out.println("2- Year to Date");
+                System.out.println("0- Back");
+                System.out.println("Command: ");
+
+                switch (reportMenuCommand) {
+                    case 1:
+                        monthToDate();
+                        break;
+                    case 2:
+                        yearToDate();
+                        break;
+
+
+                }
+            }while (reportMenuCommand != 0);
+        }
+
+        private static void yearToDate() {
+        }
+
+        public static void monthToDate() {
+            LocalDate today = LocalDate.now();
+            int currentMonth = today.getMonthValue();
+            int currentYear = today.getYear();
+
+            for (int i = 0; i < allTransactions.size(); i++) {
+                DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                String tranDate = allTransactions.get(i).getDate();
+
+                LocalDate localDate = LocalDate.parse(tranDate, dateFormatter);
+
+                int  transMonth = localDate.getMonthValue();
+                int year = localDate.getYear();
+
+                if (currentMonth ==transMonth && currentYear == year) {
+                    System.out.println(allTransactions.get(i));
+                }
+            }
+        }
+            public static void displayVendors () {
+                System.out.print("Search By Vendor");
+                System.out.println("Please provide vendors name below... ");
+                System.out.print("Name: ");
+                String vendorToSearch = inputScanner.nextLine();
+
+                for (int i = 0; i < allTransactions.size(); i++) {
+                    Transaction currentTransaction = allTransactions.get(i);
+                    if (currentTransaction.getVendor().equalsIgnoreCase(vendorToSearch)) {
+                        System.out.println(currentTransaction);
+                    }
+                }
+
+            }
+        }
 
