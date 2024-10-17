@@ -1,12 +1,14 @@
 package com.ps;
 
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-    public class Main {
+    public class Menu {
 
         static Scanner commnandScanner = new Scanner(System.in);
         static Scanner inputScanner = new Scanner(System.in);
+        static ArrayList<Transaction> transactions = new ArrayList<>();
         public static void main(String[] args) {
             int mainMenuCommand;
 
@@ -38,9 +40,12 @@ import java.util.Scanner;
                         System.out.println("Command not found, please try again");
                 }
             }while(mainMenuCommand !=0);
+
         }
         public static void addDeposit(){
             System.out.println("Command for Adding Deposit");
+        }
+        public static void makePayment(){System.out.println("Command for Making Payment");
         }
         public static void displaySubMenu(){
             int subMenuCommand;
@@ -88,7 +93,7 @@ import java.util.Scanner;
             System.out.println("Display Payments");
         }
         public static void displayReports(){
-            System.out.println("Placeholder: Reports");
+            int reportsCommand;
         }
         public static void searchByVendor(){
             System.out.println("Search By Vendor");
