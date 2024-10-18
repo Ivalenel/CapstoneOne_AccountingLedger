@@ -1,13 +1,13 @@
-Home Menu
+Main Menu
 
 ![img.png](../../../../../img.png)
 
 
-Add Deposit
+Add Deposit Option
 
 ![img_3.png](../../../../../img_3.png)
 
-Add Payment
+Add Payment Option
 
 ![img_2.png](../../Photos/img_2.png)
 
@@ -27,8 +27,6 @@ Display Deposits
 Display Payments
 
 ![img_4.png](../../Photos/img_4.png)
-
-Reports
 
 Search By Vendor
 

@@ -9,12 +9,6 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.LocalDate;
-
-
-
-
-
 
     public class Menu {
 
@@ -288,23 +282,18 @@ import java.time.LocalDate;
         }
 
         public static void monthToDate() {
-            LocalDate today = LocalDate.now();
-            int currentMonth = today.getMonthValue();
-            int currentYear = today.getYear();
+            //          LocalDate today = LocalDate.now();
+            //int currentMonth = today.getMonthValue();
+            //int currentYear = today.getYear();
 
-            for (int i = 0; i < allTransactions.size(); i++) {
-                DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                String tranDate = allTransactions.get(i).getDate();
-
-                LocalDate localDate = LocalDate.parse(tranDate, dateFormatter);
-
-                int transMonth = localDate.getMonthValue();
-                int year = localDate.getYear();
-
-                if (currentMonth == transMonth && currentYear == year) {
-                    System.out.println(allTransactions.get(i));
+            //for (int i = 0; i < allTransactions.size(); i++) {
+            //    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            //    String tranDate = allTransactions.get(i).getDate();
+            //  LocalDate localDate = LocalDate.parse(tranDate, dateFormatter);
+            //int transMonth = localDate.getMonthValue();
+            //int year = localDate.getYear();
+            //if (currentMonth == transMonth && currentYear == year) {
+            //        System.out.println(allTransactions.get(i));
                 }
             }
-        }
-    }
 
